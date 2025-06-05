@@ -3,10 +3,10 @@ import taskRouter from "./routes/taskRouter";
 import { connectDB } from "./db";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 connectDB();
 app.use(express.json());
-app.use(express.static("frontend"));
+app.use(express.static("public"));
 
 app.use("/api/task", taskRouter);
 
