@@ -16,3 +16,20 @@ export const getAllTask = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+export const createTask = async (req: Request, res: Response) => {
+  try {
+    const { title } = req.body;
+    if (!title || typeof title !== "string" || title.trim() === "") {
+      res.status(400).json({ error: "Title must not be empty." });
+      return;
+    }
+
+    const newTask = new Task({ title: title.trim() });
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
