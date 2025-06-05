@@ -33,3 +33,28 @@ export const createTask = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+export const toggleComplete = async (req: Request, res: Response) => {
+  try {
+    const taskId = req.params.id;
+
+    const task = await Task.findById({ taskId });
+
+    if (!task) {
+      res.status(401).json({
+        msg: "task is NOT found",
+        error: true,
+      });
+      return;
+    }
+
+    task.completed = !task.completed;
+
+    const updatedTask = await task.save();
+
+    res.json(updatedTask);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
