@@ -58,3 +58,19 @@ export const toggleComplete = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const taskId = req.params.id;
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+
+    if (!deletedTask) {
+      res.status(404).json({ error: "Task not found" });
+      return;
+    }
+    res.status(204).send();
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
